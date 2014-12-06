@@ -1,0 +1,13 @@
+#! /usr/bin/env bash
+
+# Released into the Public Domain by tav <tav@espians.com>
+
+rm -rf frames
+rm -f asciicast.gif
+
+phantomjs2 ./render.js $1
+
+echo '>> Generating GIF ...'
+convert -delay 6 -loop 0 frames/*.png gif:- | gifsicle --colors=256 --delay=6 --optimize=3 > asciicast.gif
+
+echo '>> Finished!'
