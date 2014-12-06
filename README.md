@@ -2,6 +2,8 @@
 
 Generate an animated GIF from [asciinema terminal recordings].
 
+![](https://github.com/tav/asciinema2gif/releases/download/0.1/asciinema.gif)
+
 ### Motivation
 
 The `asciinema` tool is a wonderful way to record and share terminal sessions.  
