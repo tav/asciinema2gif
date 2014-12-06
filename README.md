@@ -2,7 +2,7 @@
 
 Generate an animated GIF from [asciinema terminal recordings].
 
-![](https://github.com/tav/asciinema2gif/releases/download/0.1/asciinema.gif)
+![Demo](http://tav.espians.com/asciinema/demo.gif)
 
 ### Motivation
 
