@@ -1,12 +1,12 @@
 ## asciinema2gif
 
-Generate an animated GIF from [asciinema terminal recordings].
+Generate animated GIFs from [asciinema terminal recordings].
 
 ![Demo](http://tav.espians.com/asciinema/demo.gif)
 
 ### Motivation
 
-The `asciinema` tool is a wonderful way to record and share terminal sessions.  
+The [`asciinema`] tool is a wonderful way to record and share terminal sessions.  
 Unfortunately, it's not [currently possible] to embed the output in places like  
 README files on GitHub repos. This tool provides a solution for that.
 
@@ -78,5 +78,6 @@ Public domain.
 Enjoy, tav <<tav@espians.com>>
 
 
+[`asciinema`]: https://asciinema.org/
 [asciinema terminal recordings]: https://asciinema.org/
 [currently possible]: https://github.com/asciinema/asciinema.org/issues/152
