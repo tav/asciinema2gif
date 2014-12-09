@@ -2,12 +2,24 @@
 
 # Released into the Public Domain by tav <tav@espians.com>
 
-rm -rf frames
-rm -f asciicast.gif
+# Halt on error.
+set -e
 
-phantomjs2 ./render.js $1
+rundir=$PWD
 
-echo '>> Generating GIF ...'
-convert -delay 6 -loop 0 frames/*.png gif:- | gifsicle --colors=256 --delay=6 --optimize=3 > asciicast.gif
+# Execute this in a subshell, changing to a temporary directory.
+(
+  tempdir="$(mktemp -d --tmpdir asciinema2gif.XXX)"
+  echo "Creating and changing to temporary dir: $tempdir"
+  cd "$tempdir"
 
-echo '>> Finished!'
+  # rm -rf frames
+  # rm -f asciicast.gif
+
+  phantomjs2 $rundir/render.js $1
+
+  echo '>> Generating GIF ...'
+  convert -delay 5 -loop 0 frames/*.png gif:- | gifsicle --colors=256 --delay=6 --optimize=3 > asciicast.gif
+
+  echo ">> Generated: ${PWD}/asciicast.gif"
+)
