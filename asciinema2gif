@@ -9,7 +9,7 @@ rundir=$PWD
 
 # Execute this in a subshell, changing to a temporary directory.
 (
-  tempdir="$(mktemp -d --tmpdir asciinema2gif.XXX)"
+  tempdir="$(mktemp -d -t asciinema2gif.XXX)"
   echo "Creating and changing to temporary dir: $tempdir"
   cd "$tempdir"
 
