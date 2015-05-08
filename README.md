@@ -27,47 +27,18 @@ The API url supports a few customisable parameters you might want to use:
 
 ### Requirements
 
-**PhantomJS 2**
-
-You need to have PhantomJS 2 installed since there are a number of bugs in  
-PhantomJS 1.x:
-
-* https://github.com/ariya/phantomjs/issues/10592
-* https://github.com/ariya/phantomjs/issues/12181
-* https://github.com/ariya/phantomjs/issues/12697
-
-You can find relatively recent builds of PhantomJS 2 here:
-
-* https://github.com/bprodoehl/phantomjs/releases
-
-Make sure to place the binary on your `PATH` as `phantomjs2`.
-
-**ImageMagick**
-
-OS X:
+#### OS X
 
 ```bash
-$ brew install imagemagick
+brew install imagemagick gifsicle npm
+npm install phantomjs2
 ```
 
-Ubuntu:
+#### Ubuntu
 
 ```bash
-$ apt-get install imagemagick
-```
-
-**Gifsicle**
-
-OS X:
-
-```bash
-$ brew install gifsicle
-```
-
-Ubuntu:
-
-```bash
-$ apt-get install gifsicle
+apt-get install imagemagick gifsicle npm
+npm install phantomjs2
 ```
 
 ### License
