@@ -1,6 +1,6 @@
 // Released into the Public Domain by tav <tav@espians.com>
 
-/*global phantom, $, document, asciinema, callPhantom*/
+/*global phantom, $, document, callPhantom*/
 
 var system = require('system'),
   webpage = require('webpage');
@@ -103,34 +103,40 @@ init.open(argv[1], function (status) {
       $('.powered').hide();
       // Change the styling slightly.
       $('<style>.asciinema-player-wrapper{text-align: left}</style>').appendTo(document.body);
+
       // Intercept the data load.
-      fetch = asciinema.HttpArraySource.prototype.fetchData;
-      asciinema.HttpArraySource.prototype.fetchData = function (setLoading, onResult) {
-        fetch.call(this, setLoading, function () {
-          // Initialise the player.
-          onResult();
-          // Start the screenshots.
-          callPhantom(true);
-          // Check if the player has finished.
-          var prev = "",
-            sameCount = 0;
-          setTimeout(function checkProgress() {
-            var width = $('.gutter')[0].children[0].style.width;
-            if (width === prev) {
-              sameCount += 1;
-              if (sameCount === 3) {
-                callPhantom(false);
-                return;
-              }
-            } else {
-              callPhantom(true, width);
-              sameCount = 0;
+      (function(open) {
+
+        XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {
+          this.addEventListener("readystatechange", function() {
+            if (url.indexOf('stdout.json') > -1 && this.readyState == 4) {
+              // Start the screenshots.
+              callPhantom(true);
+              // Check if the player has finished.
+              var prev = "";
+              var sameCount = 0;
+              setTimeout(function checkProgress() {
+                var width = $('.gutter')[0].children[0].style.width;
+                if (width === prev) {
+                  sameCount += 1;
+                  if (sameCount === 3) {
+                    callPhantom(false);
+                    return;
+                  }
+                } else {
+                  callPhantom(true, width);
+                  sameCount = 0;
+                }
+                prev = width;
+                setTimeout(checkProgress, 100);
+              }, 0);
             }
-            prev = width;
-            setTimeout(checkProgress, 100);
-          }, 0);
-        });
-      };
+          }, false);
+          open.call(this, method, url, async, user, pass);
+        };
+
+      })(XMLHttpRequest.prototype.open);
+
       // Synthesise the click for playing the video.
       el = $('.start-prompt')[0];
       ev = document.createEvent('Events');

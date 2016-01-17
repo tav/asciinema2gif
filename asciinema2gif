@@ -16,7 +16,7 @@ rundir=$PWD
   # rm -rf frames
   # rm -f asciicast.gif
 
-  phantomjs2 $rundir/render.js $1
+  phantomjs $rundir/render.js $1
 
   echo '>> Generating GIF ...'
   convert -delay 5 -loop 0 frames/*.png gif:- | gifsicle --colors=256 --delay=6 --optimize=3 > asciicast.gif
