@@ -109,7 +109,7 @@ init.open(argv[1], function (status) {
 
         XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {
           this.addEventListener("readystatechange", function() {
-            if (url.indexOf('stdout.json') > -1 && this.readyState == 4) {
+            if (url.indexOf('asciicast.json') > -1 && this.readyState == 4) {
               // Start the screenshots.
               callPhantom(true);
               // Check if the player has finished.
