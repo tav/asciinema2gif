@@ -1,0 +1,23 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "globals": {
+  },
+  "rules": {
+    "brace-style": [2, "1tbs", {"allowSingleLine": false}],
+    "indent": [2, 2],
+    "new-cap": false,
+    "no-constant-condition": 0,
+    "no-extra-strict": 0,
+    "no-process-exit": 0,
+    "no-return-assign": 0,
+    "no-underscore-dangle": 0,
+    "no-unused-vars": [2, {"vars": "all", "args": "none"}],
+    "no-use-before-define": 0,
+    "quotes": 0,
+    "strict": 0
+  }
+}
