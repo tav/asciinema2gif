@@ -41,6 +41,14 @@ apt-get install imagemagick gifsicle npm
 npm install phantomjs2
 ```
 
+### Credits
+
+* [@blueyed], Daniel Hahler
+* [@iblech], Ingo Blechschmidt
+* [@tav]
+* [@VojtechVitek], Vojtech Vitek
+* [@wong2], Wang Dàpéng — **maintainer**
+
 ### License
 
 Public domain.
@@ -52,3 +60,9 @@ Enjoy, tav <<tav@espians.com>>
 [`asciinema`]: https://asciinema.org/
 [asciinema terminal recordings]: https://asciinema.org/
 [currently possible]: https://github.com/asciinema/asciinema.org/issues/152
+
+[@blueyed]: https://github.com/blueyed
+[@iblech]: https://github.com/iblech
+[@tav]: https://github.com/tav
+[@VojtechVitek]: https://github.com/VojtechVitek
+[@wong2]: https://github.com/wong2
