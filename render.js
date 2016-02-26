@@ -1,6 +1,6 @@
 // Released into the Public Domain by tav <tav@espians.com>
 
-/*global phantom, $, document, callPhantom*/
+/*global phantom, $, callPhantom*/
 
 var system = require('system'),
   webpage = require('webpage');
@@ -56,7 +56,7 @@ init.open(argv[1], function (status) {
 
   next = newPage();
   next.viewportSize = {width: dims[0], height: dims[1]};
-  next.open(argv[1], function (status) {
+  next.open(argv[1], function (innerStatus) {
 
     var diff,
       frame = 1,
@@ -65,7 +65,7 @@ init.open(argv[1], function (status) {
       last = 0,
       stop = false;
 
-    checkStatus(status);
+    checkStatus(innerStatus);
 
     next.onCallback = function (running, progress) {
       if (progress !== undefined) {
@@ -97,7 +97,7 @@ init.open(argv[1], function (status) {
 
     console.log(">> Preparing window ...");
     next.evaluate(function () {
-      var fetch, ev, el;
+      var ev, el;
       // Hide the control bar and the powered by paragraph.
       $('.control-bar').hide();
       $('.powered').hide();
@@ -109,7 +109,7 @@ init.open(argv[1], function (status) {
 
         XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {
           this.addEventListener("readystatechange", function() {
-            if (url.indexOf('asciicast.json') > -1 && this.readyState == 4) {
+            if (url.indexOf('.json') > -1 && this.readyState === 4) {
               // Start the screenshots.
               callPhantom(true);
               // Check if the player has finished.
@@ -119,7 +119,7 @@ init.open(argv[1], function (status) {
                 var width = $('.gutter')[0].children[0].style.width;
                 if (width === prev) {
                   sameCount += 1;
-                  if (sameCount === 3) {
+                  if (sameCount === 20) {
                     callPhantom(false);
                     return;
                   }
