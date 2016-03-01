@@ -5,7 +5,7 @@
 # Halt on error.
 set -e
 
-rundir=$PWD
+readonly rundir="$(cd "$(dirname "${0}")" && pwd -P)"
 
 # Execute this in a subshell, changing to a temporary directory.
 (
