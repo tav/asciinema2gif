@@ -8,6 +8,28 @@ set -e
 readonly program="$(basename "${0}")"
 readonly rundir="$(cd "$(dirname "${0}")" && pwd -P)"
 
+# Check for dependencies
+depends_on() {
+  readonly local all_deps=("${@}")
+  local missing_deps=()
+
+  for dep in "${all_deps[@]}"; do
+    if ! command -v "${dep}" &>/dev/null; then
+      missing_deps+=("${dep}")
+    fi
+  done
+
+  if [[ "${#missing_deps[@]}" -gt 0 ]]; then
+    tput setaf 1
+    echo -e '\nThis script has unmet dependencies. You need to install these first:'
+    printf '  %s\n' "${missing_deps[@]}"
+    tput sgr0
+    exit 1
+  fi
+}
+
+depends_on convert gifsicle phantomjs
+
 # Show instructions when using wrong arguments
 if [[ -z "${1}" ]] || ! [[ "${1}" = 'https://asciinema.org/api/asciicasts/'* ]]; then
   echo "usage: ${program} <asciinema api url (of the form https://asciinema.org/api/asciicasts/XXXX)>"
