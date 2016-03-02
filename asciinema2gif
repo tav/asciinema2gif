@@ -7,6 +7,8 @@ set -e
 
 readonly program="$(basename "${0}")"
 readonly rundir="$(cd "$(dirname "${0}")" && pwd -P)"
+readonly tempdir="$(mktemp -d -t asciinema2gif)"
+readonly asciinema_api='https://asciinema.org/api/asciicasts'
 
 # Check for dependencies.
 depends_on() {
@@ -30,25 +32,75 @@ depends_on() {
 
 depends_on convert gifsicle phantomjs
 
-# Show instructions when using wrong arguments
-if [[ -z "${1}" ]] || ! [[ "${1}" = 'https://asciinema.org/api/asciicasts/'* ]]; then
-  echo "usage: ${program} <asciinema api url (of the form https://asciinema.org/api/asciicasts/XXXX)>"
+# Instructions and option flags.
+function syntax_error {
+  echo "${program}: ${1}" >&2
+  echo "Try \`${program} --help\` for more information." >&2
   exit 1
+}
+
+function usage {
+  echo "
+    usage: ${program} [options] <asciinema_number>
+
+    options:
+      -s <size>, --size <size>      One of 'small', 'medium', 'big'
+      -t <theme>, --theme <theme>   One of 'tango', 'solarized-dark', 'solarized-light'
+      -o <file>, --output <file>    File to write to (defaults to 'asciicast.gif' in current directory)
+      -h, --help                    Show this help.
+  " | sed -E 's/^ {4}//'
+}
+
+while [[ "${1}" ]]; do
+  case "${1}" in
+    -h | --help)
+      usage
+      exit 0
+      ;;
+    -s | --size)
+      asciinema_options="${asciinema_options}?size=${2}"
+      shift
+      ;;
+    -t | --theme)
+      asciinema_options="${asciinema_options}?theme=${2}"
+      shift
+      ;;
+    -o | --output)
+      output_file="${2}"
+      shift
+      ;;
+    -*)
+      syntax_error "unrecognized option: ${1}"
+      ;;
+    *)
+      break
+      ;;
+  esac
+  shift
+done
+
+# Show instructions when no arguments, more then one, or a wrong one is given.
+if [[ -z "${1}" ]] || [[ -n "${2}" ]] || ! [[ "${1}" =~ [[:digit:]]+ ]]; then
+  usage
+  exit 1
+else
+  asciinema_number="${1}"
 fi
 
-# Execute this in a subshell, changing to a temporary directory.
-(
-  readonly tempdir="$(mktemp -d -t asciinema2gif.XXX)"
-  echo "Creating and changing to temporary dir: ${tempdir}"
-  cd "${tempdir}"
+# Correct API call in case more than one option was used, and set final URL.
+asciinema_options="$(sed 's/?/\&/2' <<< "${asciinema_options}")"
+readonly asciinema_url="${asciinema_api}/${asciinema_number}${asciinema_options}"
 
-  # rm -rf frames
-  # rm -f asciicast.gif
+# Default to current output file, if not explicitly set.
+[[ -z "${output_file}" ]] && output_file="${PWD}/asciicast.gif"
 
-  phantomjs "${rundir}/render.js" "${1}"
+# Start the process.
+cd "${tempdir}"
+phantomjs "${rundir}/render.js" "${asciinema_url}"
 
-  echo '>> Generating GIF ...'
-  convert -delay 5 -loop 0 frames/*.png gif:- | gifsicle --colors=256 --delay=6 --optimize=3 > asciicast.gif
+echo '>> Generating GIF…'
+convert -delay 5 -loop 0 frames/*.png gif:- | gifsicle --colors=256 --delay=6 --optimize=3 --output='asciicast.gif'
 
-  echo ">> Generated: ${PWD}/asciicast.gif"
-)
+cd - >/dev/null
+mv "${tempdir}/asciicast.gif" "${output_file}"
+echo ">> Generated in: ${output_file}"
