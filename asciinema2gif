@@ -8,7 +8,7 @@ set -e
 readonly program="$(basename "${0}")"
 readonly rundir="$(cd "$(dirname "${0}")" && pwd -P)"
 
-# Check for dependencies
+# Check for dependencies.
 depends_on() {
   readonly local all_deps=("${@}")
   local missing_deps=()
