@@ -6,8 +6,8 @@ Generate animated GIFs from [asciinema terminal recordings].
 
 ### Motivation
 
-The [`asciinema`] tool is a wonderful way to record and share terminal sessions.  
-Unfortunately, it's not [currently possible] to embed the output in places like  
+The [`asciinema`] tool is a wonderful way to record and share terminal sessions.
+Unfortunately, it's not [currently possible] to embed the output in places like
 README files on GitHub repos. This tool provides a solution for that.
 
 ### Usage
@@ -30,6 +30,7 @@ The API url supports a few customisable parameters you might want to use:
 #### OS X
 
 ```bash
+# requires Homebrew installed. Find it at http://brew.sh/
 brew install imagemagick gifsicle phantomjs
 ```
 
@@ -52,7 +53,7 @@ npm install phantomjs2
 
 Public domain.
 
-—  
+—
 Enjoy, tav <<tav@espians.com>>
 
 
