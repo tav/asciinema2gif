@@ -30,8 +30,7 @@ The API url supports a few customisable parameters you might want to use:
 #### OS X
 
 ```bash
-brew install imagemagick gifsicle npm
-npm install phantomjs2
+brew install imagemagick gifsicle phantomjs
 ```
 
 #### Ubuntu
