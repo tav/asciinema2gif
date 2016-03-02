@@ -5,7 +5,14 @@
 # Halt on error.
 set -e
 
+readonly program="$(basename "${0}")"
 readonly rundir="$(cd "$(dirname "${0}")" && pwd -P)"
+
+# Show instructions when using wrong arguments
+if [[ -z "${1}" ]] || ! [[ "${1}" = 'https://asciinema.org/api/asciicasts/'* ]]; then
+  echo "usage: ${program} <asciinema api url (of the form https://asciinema.org/api/asciicasts/XXXX)>"
+  exit 1
+fi
 
 # Execute this in a subshell, changing to a temporary directory.
 (
