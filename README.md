@@ -12,18 +12,23 @@ README files on GitHub repos. This tool provides a solution for that.
 
 ### Usage
 
-Simply pass in the corresponding API url for the recording, e.g.
+```bash
+asciinema2gif [options] <asciinema_number>
+
+  options:
+    -s <size>, --size <size>      One of 'small', 'medium', 'big'
+    -t <theme>, --theme <theme>   One of 'tango', 'solarized-dark', 'solarized-light'
+    -o <file>, --output <file>    File to write to (defaults to 'asciicast.gif' in current directory)
+    -h, --help                    Show this help.
+```
+
+Example:
 
 ```bash
-$ ./asciinema2gif https://asciinema.org/api/asciicasts/8332
+$ ./asciinema2gif --size small --theme solarized-dark 8332
 ```
 
 An `asciicast.gif` file will then be generated for you to embed and share.
-
-The API url supports a few customisable parameters you might want to use:
-
-* `?size=`: `small`, `medium`, `big`
-* `?theme=`: `tango`, `solarized-dark`, `solarized-light`
 
 ### Requirements
 
