@@ -53,6 +53,7 @@ npm install phantomjs2
 * [@tav]
 * [@VojtechVitek], Vojtech Vitek
 * [@wong2], Wang Dàpéng — **maintainer**
+* [@vitorgalvao], Vítor Galvão
 
 ### License
 
@@ -71,3 +72,4 @@ Enjoy, tav <<tav@espians.com>>
 [@tav]: https://github.com/tav
 [@VojtechVitek]: https://github.com/VojtechVitek
 [@wong2]: https://github.com/wong2
+[@vitorgalvao]: https://github.com/vitorgalvao
