@@ -13,7 +13,7 @@ README files on GitHub repos. This tool provides a solution for that.
 ### Usage
 
 ```bash
-asciinema2gif [options] <asciinema_number>
+asciinema2gif [options] <asciinema_number|asciinema_api_url>
 
   options:
     -s <size>, --size <size>      One of 'small', 'medium', 'big'
@@ -22,13 +22,19 @@ asciinema2gif [options] <asciinema_number>
     -h, --help                    Show this help.
 ```
 
-Example:
+Examples:
 
 ```bash
-$ ./asciinema2gif --size small --theme solarized-dark 8332
+$ asciinema2gif --size small --theme solarized-dark 8332
 ```
 
 An `asciicast.gif` file will then be generated for you to embed and share.
+
+```bash
+$ asciinema2gif --theme solarized-light -o "${HOME}/Desktop/another.gif" https://asciinema.org/api/asciicasts/8332
+```
+
+In this case an `another.gif` file will be generated on your Desktop. Using the full URL is useful if you want to get an asciicast not from the official website.
 
 ### Requirements
 

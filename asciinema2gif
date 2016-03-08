@@ -41,7 +41,7 @@ function syntax_error {
 
 function usage {
   echo "
-    usage: ${program} [options] <asciinema_number>
+    usage: ${program} [options] <asciinema_number|asciinema_api_url>
 
     options:
       -s <size>, --size <size>      One of 'small', 'medium', 'big'
@@ -79,17 +79,18 @@ while [[ "${1}" ]]; do
   shift
 done
 
-# Show instructions when no arguments, more then one, or a wrong one is given.
-if [[ -z "${1}" ]] || [[ -n "${2}" ]] || ! [[ "${1}" =~ [[:digit:]]+ ]]; then
+# Show instructions when no arguments or more than one is given.
+if [[ -z "${1}" ]] || [[ -n "${2}" ]]; then
   usage
   exit 1
 else
-  asciinema_number="${1}"
+  # If only digits are given, use default asciinema API URL. Otherwise, use whatever is given.
+  [[ "${1}" =~ ^[[:digit:]]+$ ]] && asciinema_url="${asciinema_api}/${1}" || asciinema_url="${1}"
 fi
 
 # Correct API call in case more than one option was used, and set final URL.
 asciinema_options="$(sed 's/?/\&/2' <<< "${asciinema_options}")"
-readonly asciinema_url="${asciinema_api}/${asciinema_number}${asciinema_options}"
+asciinema_url="${asciinema_url}${asciinema_options}"
 
 # Default to current output file, if not explicitly set.
 [[ -z "${output_file}" ]] && output_file="${PWD}/asciicast.gif"
