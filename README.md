@@ -41,8 +41,9 @@ In this case an `another.gif` file will be generated on your Desktop. Using the 
 #### OS X
 
 ```bash
-# requires Homebrew installed. Find it at http://brew.sh/
-brew install imagemagick gifsicle phantomjs
+# Requires Homebrew installed. Find it at http://brew.sh/.
+# This command will install asciinema2gif and all dependencies.
+brew install asciinema2gif
 ```
 
 #### Ubuntu
