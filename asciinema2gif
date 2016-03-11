@@ -83,6 +83,10 @@ done
 if [[ -z "${1}" ]] || [[ -n "${2}" ]]; then
   usage
   exit 1
+# Show warning if a URL not containing '/api/asciicasts/' is given
+elif [[ "${1}" != *'/api/asciicasts/'* ]]; then
+  echo -e "\n$(tput setaf 1)Wrong URL format. See https://github.com/tav/asciinema2gif#url-format.$(tput sgr0)\n"
+  exit 1
 else
   # If only digits are given, use default asciinema API URL. Otherwise, use whatever is given.
   [[ "${1}" =~ ^[[:digit:]]+$ ]] && asciinema_url="${asciinema_api}/${1}" || asciinema_url="${1}"
