@@ -36,6 +36,10 @@ $ asciinema2gif --theme solarized-light -o "${HOME}/Desktop/another.gif" https:/
 
 In this case an `another.gif` file will be generated on your Desktop. Using the full URL is useful if you want to get an asciicast not from the official website.
 
+#### URL Format
+
+`asciinema2gif` works by visiting the given webpage, starting the asciicast, screenshotting it repeatedly, and finally stitching it together. The `/api/asciicasts/` format of an asciinema website (e.g. https://asciinema.org/api/asciicasts/8332), as opposed to the main `/a/` format (e.g. https://asciinema.org/a/8332), makes this operation easier (see [usage](#usage)), hence why it is a requirement.
+
 ### Requirements
 
 #### OS X
