@@ -7,7 +7,7 @@ set -e
 
 readonly program="$(basename "${0}")"
 readonly rundir="$(cd "$(dirname "${0}")" && pwd -P)"
-readonly tempdir="$(mktemp -d -t asciinema2gif)"
+readonly tempdir="$(mktemp -d -t asciinema2gif.XXXX)"
 readonly asciinema_api='https://asciinema.org/api/asciicasts'
 
 # Check for dependencies.
