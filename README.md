@@ -17,6 +17,7 @@ asciinema2gif [options] <asciinema_number|asciinema_api_url>
 
   options:
     -s <size>, --size <size>      One of 'small', 'medium', 'big'
+    -p <speed>, --speed <speed>   Any integer (whole number) to multiply regular speed by
     -t <theme>, --theme <theme>   One of 'asciinema', 'tango', 'solarized-dark', 'solarized-light', 'monokai'
     -o <file>, --output <file>    File to write to (defaults to 'asciicast.gif' in current directory)
     -h, --help                    Show this help.
@@ -25,7 +26,7 @@ asciinema2gif [options] <asciinema_number|asciinema_api_url>
 Examples:
 
 ```bash
-$ asciinema2gif --size small --theme solarized-dark 8332
+$ asciinema2gif --size small --speed 2 --theme solarized-dark 8332
 ```
 
 An `asciicast.gif` file will then be generated for you to embed and share.

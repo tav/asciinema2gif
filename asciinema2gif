@@ -45,6 +45,7 @@ function usage {
 
     options:
       -s <size>, --size <size>      One of 'small', 'medium', 'big'
+      -p <speed>, --speed <speed>   Any integer (whole number) to multiply regular speed by
       -t <theme>, --theme <theme>   One of 'asciinema', 'tango', 'solarized-dark', 'solarized-light', 'monokai'
       -o <file>, --output <file>    File to write to (defaults to 'asciicast.gif' in current directory)
       -h, --help                    Show this help.
@@ -59,6 +60,10 @@ while [[ "${1}" ]]; do
       ;;
     -s | --size)
       asciinema_options="${asciinema_options}?size=${2}"
+      shift
+      ;;
+    -p | --speed)
+      asciinema_options="${asciinema_options}?speed=${2}"
       shift
       ;;
     -t | --theme)
