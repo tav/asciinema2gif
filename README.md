@@ -17,7 +17,7 @@ asciinema2gif [options] <asciinema_number|asciinema_api_url>
 
   options:
     -s <size>, --size <size>      One of 'small', 'medium', 'big'
-    -t <theme>, --theme <theme>   One of 'tango', 'solarized-dark', 'solarized-light'
+    -t <theme>, --theme <theme>   One of 'asciinema', 'tango', 'solarized-dark', 'solarized-light', 'monokai'
     -o <file>, --output <file>    File to write to (defaults to 'asciicast.gif' in current directory)
     -h, --help                    Show this help.
 ```
