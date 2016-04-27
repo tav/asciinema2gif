@@ -93,7 +93,7 @@ else
 fi
 
 # Correct API call in case more than one option was used, and set final URL.
-asciinema_options="$(sed 's/?/\&/2' <<< "${asciinema_options}")"
+asciinema_options="$(sed 's/?/\&/g;s/&/?/1' <<< "${asciinema_options}")"
 asciinema_url="${asciinema_url}${asciinema_options}"
 
 # Default to current output file, if not explicitly set.
