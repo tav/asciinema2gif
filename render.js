@@ -34,6 +34,9 @@ function newPage() {
   page.onResourceError = function (err) {
     failure = err.errorString;
   };
+  page.onResourceReceived = function (resource) {
+    page.statusCode = resource.status;
+  }
   // Uncomment this to see console.log calls from within pages.
   // page.onConsoleMessage = function (info) {
   //   console.log(info);
@@ -45,8 +48,12 @@ function newPage() {
 init = newPage();
 init.viewportSize = {width: 9999, height: 9999};
 init.open(argv[1], function (status) {
-
   checkStatus(status);
+  if (init.statusCode && init.statusCode == 404) {
+    console.log("ERROR: " + argv[1] + " returns 404");
+    phantom.exit(1);
+  }
+
   dims = init.evaluate(function () {
     var term = $('.asciinema-terminal');
     return [term.width(), term.height()];
