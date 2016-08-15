@@ -110,7 +110,7 @@ asciinema_url="${asciinema_url}${asciinema_options}"
 
 # Start the process.
 cd "${tempdir}"
-phantomjs "${rundir}/render.js" "${asciinema_url}"
+phantomjs --ssl-protocol=any "${rundir}/render.js" "${asciinema_url}"
 
 echo '>> Generating GIF…'
 convert -delay 5 -loop 0 frames/*.png gif:- | gifsicle --colors=256 --delay=6 --optimize=3 --output='asciicast.gif'
