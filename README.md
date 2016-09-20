@@ -55,7 +55,7 @@ brew install asciinema2gif
 
 ```bash
 apt-get install imagemagick gifsicle npm
-npm install phantomjs2
+npm install --global phantomjs2
 ```
 
 ### Credits
