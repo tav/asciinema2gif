@@ -44,6 +44,10 @@ function newPage() {
   return page;
 }
 
+function includeJQuery(page, callback) {
+  page.includeJs('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js', callback)
+}
+
 // Do a first pass to detect the exact dimensions of the asciicast.
 init = newPage();
 init.viewportSize = {width: 9999, height: 9999};
@@ -54,102 +58,110 @@ init.open(argv[1], function (status) {
     phantom.exit(1);
   }
 
-  dims = init.evaluate(function () {
-    var term = $('.asciinema-terminal');
-    return [term.width(), term.height()];
-  });
+  includeJQuery(init, function() {
 
-  console.log(">> Dimensions: " + dims[0] + "x" + dims[1]);
+    dims = init.evaluate(function () {
+      var term = $('.asciinema-terminal');
+      return [term.width(), term.height()];
+    });
 
-  next = newPage();
-  next.viewportSize = {width: dims[0], height: dims[1]};
-  next.open(argv[1], function (innerStatus) {
+    console.log(">> Dimensions: " + dims[0] + "x" + dims[1]);
 
-    var diff,
-      frame = 1,
-      framerate = argv[2] ? parseInt(argv[2], 10) : 10,
-      interval = 1000 / framerate,
-      last = 0,
-      stop = false;
+    next = newPage();
+    next.viewportSize = {width: dims[0], height: dims[1]};
+    next.open(argv[1], function (innerStatus) {
 
-    checkStatus(innerStatus);
+      var diff,
+        frame = 1,
+        framerate = argv[2] ? parseInt(argv[2], 10) : 10,
+        interval = 1000 / framerate,
+        last = 0,
+        stop = false;
 
-    next.onCallback = function (running, progress) {
-      if (progress !== undefined) {
-        console.log(">> Progress: " + progress);
-        return;
-      }
-      if (running) {
-        console.log(">> Generating screenshots ...");
-        var now = Date.now();
-        setTimeout(function screenshot() {
-          if (stop) {
-            console.log(">> Done!");
-            phantom.exit(0);
+      checkStatus(innerStatus);
+
+      includeJQuery(next, function() {
+
+        next.onCallback = function (running, progress) {
+          if (progress !== undefined) {
+            console.log(">> Progress: " + progress);
             return;
           }
-          next.render('frames/' + (("00000000" + frame++).substr(-8, 8)) + '.png', {format: 'png'});
-          now = Date.now();
-          if ((diff = (interval - now - last)) <= 0) {
-            setTimeout(screenshot, 0);
+          if (running) {
+            console.log(">> Generating screenshots ...");
+            var now = Date.now();
+            setTimeout(function screenshot() {
+              if (stop) {
+                console.log(">> Done!");
+                phantom.exit(0);
+                return;
+              }
+              next.render('frames/' + (("00000000" + frame++).substr(-8, 8)) + '.png', {format: 'png'});
+              now = Date.now();
+              if ((diff = (interval - now - last)) <= 0) {
+                setTimeout(screenshot, 0);
+              } else {
+                setTimeout(screenshot, diff);
+              }
+              last = now;
+            }, interval);
           } else {
-            setTimeout(screenshot, diff);
+            stop = true;
           }
-          last = now;
-        }, interval);
-      } else {
-        stop = true;
-      }
-    };
-
-    console.log(">> Preparing window ...");
-    next.evaluate(function () {
-      var ev, el;
-      // Hide the control bar and the powered by paragraph.
-      $('.control-bar').hide();
-      $('.powered').hide();
-      // Change the styling slightly.
-      $('<style>.asciinema-player-wrapper{text-align: left}</style>').appendTo(document.body);
-
-      // Intercept the data load.
-      (function(open) {
-
-        XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {
-          this.addEventListener("readystatechange", function() {
-            if (url.indexOf('.json') > -1 && this.readyState === 4) {
-              // Start the screenshots.
-              callPhantom(true);
-              // Check if the player has finished.
-              var prev = "";
-              var sameCount = 0;
-              setTimeout(function checkProgress() {
-                var width = $('.gutter')[0].children[0].style.width;
-                if (width === prev) {
-                  sameCount += 1;
-                  if (sameCount === 20) {
-                    callPhantom(false);
-                    return;
-                  }
-                } else {
-                  callPhantom(true, width);
-                  sameCount = 0;
-                }
-                prev = width;
-                setTimeout(checkProgress, 100);
-              }, 0);
-            }
-          }, false);
-          open.call(this, method, url, async, user, pass);
         };
 
-      })(XMLHttpRequest.prototype.open);
+        console.log(">> Preparing window ...");
+        next.evaluate(function () {
+          var ev, el;
+          // Hide the control bar and the powered by paragraph.
+          $('.control-bar').hide();
+          $('.powered').hide();
+          // Change the styling slightly.
+          $('<style>.asciinema-player-wrapper{text-align: left}</style>').appendTo(document.body);
 
-      // Synthesise the click for playing the video.
-      el = $('.start-prompt')[0];
-      ev = document.createEvent('Events');
-      ev.initEvent('click', true, false);
-      // ev = new CustomEvent('click', {bubbles: true});
-      el.dispatchEvent(ev);
+          // Intercept the data load.
+          (function(open) {
+
+            XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {
+              this.addEventListener("readystatechange", function() {
+                if (url.indexOf('.json') > -1 && this.readyState === 4) {
+                  // Start the screenshots.
+                  callPhantom(true);
+                  // Check if the player has finished.
+                  var prev = "";
+                  var sameCount = 0;
+                  setTimeout(function checkProgress() {
+                    var width = $('.gutter')[0].children[0].style.width;
+                    if (width === prev) {
+                      sameCount += 1;
+                      if (sameCount === 20) {
+                        callPhantom(false);
+                        return;
+                      }
+                    } else {
+                      callPhantom(true, width);
+                      sameCount = 0;
+                    }
+                    prev = width;
+                    setTimeout(checkProgress, 100);
+                  }, 0);
+                }
+              }, false);
+              open.call(this, method, url, async, user, pass);
+            };
+
+          })(XMLHttpRequest.prototype.open);
+
+          // Synthesise the click for playing the video.
+          el = $('.start-prompt')[0];
+          ev = document.createEvent('Events');
+          ev.initEvent('click', true, false);
+          // ev = new CustomEvent('click', {bubbles: true});
+          el.dispatchEvent(ev);
+        });
+
+      });
+
     });
 
   });
