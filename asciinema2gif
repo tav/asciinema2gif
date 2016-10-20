@@ -96,7 +96,7 @@ else
 fi
 
 # Show warning if a URL not containing '/api/asciicasts/' is given
-if [[ $asciinema_url != *'/api/asciicasts/'* ]]; then
+if [[ "${asciinema_url}" != *'/api/asciicasts/'* ]]; then
   echo -e "\n$(tput setaf 1)Wrong URL format. See https://github.com/tav/asciinema2gif#url-format.$(tput sgr0)\n"
   exit 1
 fi
