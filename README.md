@@ -13,7 +13,7 @@ README files on GitHub repos. This tool provides a solution for that.
 ### Usage
 
 ```bash
-asciinema2gif [options] <asciinema_number|asciinema_api_url>
+asciinema2gif [options] <asciinema_id|asciinema_api_url>
 
   options:
     -s <size>, --size <size>      One of 'small', 'medium', 'big'
