@@ -88,7 +88,7 @@ done
 if [[ -z "${1}" ]] || [[ -n "${2}" ]]; then
   usage
   exit 1
-elif [[ "${1}" =~ ^[[:alnum:]]+$ ]] && [[ $(curl -s -I "${asciinema_api}/${1}" | grep -c 200) == 2 ]]; then
+elif [[ "${1}" =~ ^[[:alnum:]]+$ ]] && [[ $(curl -s -I "${asciinema_api}/${1}" | grep -c 200) -eq 2 ]]; then
   # If only digits are given, use default asciinema API URL.
   asciinema_url="${asciinema_api}/${1}"
 else
