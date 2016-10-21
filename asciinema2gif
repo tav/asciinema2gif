@@ -118,5 +118,4 @@ convert -delay 5 -loop 0 frames/*.png gif:- | gifsicle --colors=256 --delay=6 --
 cd - >/dev/null
 mv "${tempdir}/asciicast.gif" "${output_file}"
 echo ">> Generated in: ${output_file}"
-echo "cleaning up the frames before quiting"
 find "${tempdir}" -name \*.png -delete
