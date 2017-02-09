@@ -58,6 +58,11 @@ apt-get install imagemagick gifsicle npm
 npm install --global phantomjs2
 ```
 
+### Docker
+
+You can also use [docker] to render the asciicast without having to set up a web
+server yourself. More information in [docker/README.md](docker/README.md).
+
 ### Credits
 
 * [@blueyed], Daniel Hahler
@@ -78,6 +83,7 @@ Enjoy, tav <<tav@espians.com>>
 [`asciinema`]: https://asciinema.org/
 [asciinema terminal recordings]: https://asciinema.org/
 [currently possible]: https://github.com/asciinema/asciinema.org/issues/152
+[docker]: https://docker.io/
 
 [@blueyed]: https://github.com/blueyed
 [@iblech]: https://github.com/iblech

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -e
+
+FILE=${1?Usage: $0 <jsonfile>}
+shift
+PORT=3080
+
+TMP=$(mktemp -d)
+trap 'rm -rf $TMP' EXIT
+
+cp "$FILE" "$TMP/asciicast.json"
+chmod a+rx "$TMP"
+chmod a+r "$TMP/asciicast.json"
+
+set -x
+
+docker run -i --rm -p "${PORT}:80" -v "$TMP:/usr/share/nginx/html/asciicast" --name asciinema2gif asciinema2gif &
+PID=$!
+trap 'kill -9 $PID; rm -rf $TMP' EXIT
+
+"${0%/*}/../asciinema2gif" "$@" "http://127.0.0.1:$PORT/api/asciicasts/"
